@@ -274,7 +274,7 @@
                     document.getElementById('seccionDashboard').style.display = 'block';
                     
                     const nombreUsuario = resultado.nombre ? resultado.nombre : "Usuario";
-                    document.getElementById('txtNombre').innerText = "¡Bienvenido, " + nombreUsuario + "!";
+                    document.getElementById('txtNombre').innerText = "¡Bienvenid@, " + nombreUsuario + "!";
                     document.getElementById('txtUnidad').innerText = "Unidad Asignada: " + (resultado.unit || resultado.unidad || "---");
 
                     if(resultado.rol === "Mecanico" || resultado.rol === "Admin") {
