@@ -33,16 +33,16 @@
             border-radius: 25px; 
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); 
             
-            /* AJUSTE DE MÁRGENES LATERALES */
-            width: calc(100% - 40px); /* Esto garantiza 20px de margen a cada lado */
-            max-width: 320px; 
+            /* MARGEN LATERAL REDUCIDO (10px por lado) */
+            width: calc(100% - 20px); 
+            max-width: 340px; 
             
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            margin: 20px; /* Margen externo para forzar el separo del borde */
-            box-sizing: border-box; /* Importante para que el padding no estire la caja */
+            margin: 10px; 
+            box-sizing: border-box; 
         }
 
         .logo-container img { width: 80px; height: auto; margin-bottom: 20px; }
@@ -78,7 +78,7 @@
 
         .footer {
             color: white;
-            font-size: 8px; /* Corregido a 8px */
+            font-size: 8px; 
             text-align: center;
             width: 100%;
             padding: 15px 0;
