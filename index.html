@@ -12,14 +12,13 @@
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             display: flex; 
-            flex-direction: column; /* Para que el contenido y el footer se alineen */
+            flex-direction: column; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
             margin: 0; 
-            background-color: #ffffff; /* Fondo blanco de carga rápida */
+            background-color: #ffffff; 
 
-            /* Imagen de Fondo 9:16 */
             background-image: linear-gradient(rgba(30, 46, 90, 0.4), rgba(30, 46, 90, 0.4)), 
                               url('Fondo1.jpg');
             background-size: cover;
@@ -33,13 +32,17 @@
             padding: 35px 25px; 
             border-radius: 25px; 
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); 
-            width: 85%; 
-            max-width: 340px; 
+            
+            /* AJUSTE DE MÁRGENES LATERALES */
+            width: calc(100% - 40px); /* Esto garantiza 20px de margen a cada lado */
+            max-width: 320px; 
+            
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            margin: 20px auto; 
+            margin: 20px; /* Margen externo para forzar el separo del borde */
+            box-sizing: border-box; /* Importante para que el padding no estire la caja */
         }
 
         .logo-container img { width: 80px; height: auto; margin-bottom: 20px; }
@@ -73,14 +76,13 @@
             transition: 0.3s;
         }
 
-        /* ESTILO DEL FOOTER */
         .footer {
             color: white;
-            font-size: 10px;
+            font-size: 8px; /* Corregido a 8px */
             text-align: center;
             width: 100%;
             padding: 15px 0;
-            background: rgba(0, 0, 0, 0.2); /* Fondo sutil para legibilidad */
+            background: rgba(0, 0, 0, 0.2); 
             position: fixed;
             bottom: 0;
             letter-spacing: 0.5px;
