@@ -45,6 +45,7 @@
             text-align: center;
             backdrop-filter: blur(10px);
             box-sizing: border-box;
+            z-index: 2;
         }
 
         .logo-container img { width: 90px; margin-bottom: 20px; }
@@ -53,32 +54,38 @@
         
         .input-group { margin-bottom: 20px; text-align: left; }
         
-        /* CAMBIO: Segoe UI Semibold sin negrita adicional */
         label { 
             display: block; 
             font-size: 11px; 
             color: var(--azul-serex); 
-            font-family: 'Segoe UI Semibold', 'Segoe UI', sans-serif;
-            font-weight: 400; 
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 700; 
             margin-bottom: 8px; 
             text-transform: uppercase; 
         }
 
         input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; }
 
+        /* AJUSTE: Botón más pequeño y con más margen superior */
         .btn-entrar { 
-            width: 100%; padding: 15px; 
+            width: fit-content; 
+            min-width: 160px; /* Más pequeño */
+            padding: 12px 40px; 
+            margin: 30px auto 0; /* Más abajo para equilibrar el blanco */
+            display: block;
             background-color: var(--azul-serex); color: white; 
             border: none; border-radius: 12px; font-weight: 700; cursor: pointer; 
-            transition: 0.3s; font-size: 16px;
+            transition: 0.3s; font-size: 15px;
         }
-        .btn-entrar:disabled { background-color: #a0a0a0; }
+        .btn-entrar:hover { transform: scale(1.05); background-color: #2a3d7a; }
+        .btn-entrar:disabled { background-color: #a0a0a0; transform: none; }
 
         /* --- PANTALLA DASHBOARD --- */
         #seccionDashboard { 
             display: none; width: 100%; min-height: 100vh; 
             background-color: #fcfcfc; position: absolute; top: 0; left: 0;
-            padding-top: 80px; box-sizing: border-box;
+            padding-top: 80px; padding-bottom: 60px;
+            box-sizing: border-box;
         }
         
         .header-app {
@@ -133,11 +140,33 @@
         .menu-card span { font-size: 15px; font-weight: 800; color: var(--azul-serex); text-transform: uppercase; margin-bottom: 12px; }
         .menu-card p { font-size: 11px; color: #888; margin: 0; line-height: 1.5; padding: 0 10px; }
 
+        /* --- FOOTER GLOBAL --- */
+        .footer-text { 
+            color: #555; 
+            font-size: 10px; 
+            position: fixed; 
+            bottom: 0; 
+            width: 100%; 
+            text-align: center; 
+            padding: 12px 0;
+            background: rgba(30, 46, 90, 0.05); 
+            backdrop-filter: blur(5px);
+            border-top: 1px solid rgba(30, 46, 90, 0.1);
+            z-index: 1001;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        body:not(.logged-in) .footer-text {
+            color: white;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: none;
+        }
+
         /* --- UTILIDADES --- */
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--azul-serex); border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hidden { display: none !important; }
-        .footer-text { color: white; font-size: 9px; position: fixed; bottom: 15px; width: 100%; text-align: center; opacity: 0.8; }
 
         @media (max-width: 900px) {
             .menu-grid { flex-wrap: wrap; }
@@ -205,7 +234,9 @@
         </div>
     </div>
 
-    <div class="footer-text" id="loginFooter">© 2026 GRUPO SEREX C.A. - SISTEMA DE GESTIÓN DE FLOTA</div>
+    <div class="footer-text">
+        © 2026 GRUPO SEREX C.A. - TODOS LOS DERECHOS RESERVADOS - SISTEMA DE GESTIÓN DE FLOTA
+    </div>
 
     <script>
         async function validarIngreso() {
@@ -235,8 +266,8 @@
                 const resultado = await respuesta.json();
 
                 if (respuesta.status === 200 && resultado.acceso === "concedido") {
+                    document.body.classList.add('logged-in');
                     document.getElementById('seccionLogin').style.display = 'none';
-                    document.getElementById('loginFooter').style.display = 'none';
                     document.body.style.backgroundImage = "none";
                     document.body.style.backgroundColor = "#fcfcfc";
                     document.body.style.justifyContent = "flex-start";
@@ -244,15 +275,14 @@
                     
                     const nombreUsuario = resultado.nombre ? resultado.nombre : "Usuario";
                     document.getElementById('txtNombre').innerText = "¡Bienvenido, " + nombreUsuario + "!";
-                    document.getElementById('txtUnidad').innerText = "Unidad Asignada: " + (resultado.unidad || "---");
+                    document.getElementById('txtUnidad').innerText = "Unidad Asignada: " + (resultado.unit || resultado.unidad || "---");
 
                     if(resultado.rol === "Mecanico" || resultado.rol === "Admin") {
                         document.getElementById('btnMecanico').classList.remove('hidden');
                     }
                 } else {
-                    // CAMBIO: Mensaje de error personalizado
                     mensaje.style.color = "#e74c3c";
-                    mensaje.innerText = "Cedula y/o Pin incorrectos.";
+                    mensaje.innerText = "Cédula y/o Pin incorrectos.";
                 }
             } catch (error) {
                 mensaje.style.color = "#1e2e5a";
