@@ -17,6 +17,8 @@
             --azul-serex: rgb(30, 46, 90);
             --gris-suave: #f4f7f9;
             --blanco: #ffffff;
+            --sombra-suave: 0 10px 25px rgba(30, 46, 90, 0.08);
+            --sombra-fuerte: 0 20px 40px rgba(30, 46, 90, 0.15);
         }
 
         /* --- ESTILOS BASE --- */
@@ -42,7 +44,7 @@
             padding: 40px 30px; 
             border-radius: 30px; 
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); 
-            width: calc(100% - 30px); 
+            width: calc(100% - 15px); 
             max-width: 380px; 
             text-align: center;
             backdrop-filter: blur(10px);
@@ -81,25 +83,10 @@
         .btn-entrar:hover { transform: scale(1.05); background-color: #2a3d7a; }
         .btn-entrar:disabled { background-color: #a0a0a0; transform: none; }
 
-        /* --- BIOMETRÍA (SOLO MÓVIL) --- */
-        #authBiometrica { display: none; margin-top: 20px; }
-
-        /* Esta regla solo activa el botón en dispositivos táctiles (móviles/tablets) */
-        @media (pointer: coarse) {
-            #authBiometrica { display: block; }
-        }
-
-        #authBiometrica i {
-            font-size: 35px; 
-            color: var(--azul-serex); 
-            cursor: pointer; 
-            transition: 0.3s;
-        }
-
         /* --- PANTALLA DASHBOARD --- */
         #seccionDashboard { 
             display: none; width: 100%; min-height: 100vh; 
-            background-color: #f0f0f0; position: absolute; top: 0; left: 0;
+            background-color: #f4f7f9; position: absolute; top: 0; left: 0;
             padding-top: 80px; padding-bottom: 60px;
             box-sizing: border-box;
         }
@@ -107,64 +94,70 @@
         .header-app {
             background: var(--blanco); width: 100%; position: fixed; top: 0; left: 0;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 30px; box-sizing: border-box; 
+            padding: 10px 20px; box-sizing: border-box; 
             box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000;
         }
 
-        .header-user-info { display: flex; align-items: center; gap: 15px; }
-        .header-user-info img { width: 45px; height: auto; }
+        .header-user-info { display: flex; align-items: center; gap: 12px; }
+        .header-user-info img { width: 40px; height: auto; }
 
-        .user-tag b { display: block; font-size: 17px; color: var(--azul-serex); }
-        .user-tag span { font-size: 12px; color: #777; }
+        .user-tag b { display: block; font-size: 15px; color: var(--azul-serex); }
+        .user-tag span { font-size: 11px; color: #777; }
 
-        .btn-salir { color: #e74c3c; font-weight: 700; font-size: 11px; cursor: pointer; border: 1px solid #e74c3c; padding: 6px 12px; border-radius: 8px; }
+        .btn-salir { color: #e74c3c; font-weight: 700; font-size: 10px; cursor: pointer; border: 1px solid #e74c3c; padding: 6px 12px; border-radius: 8px; }
 
-        .dashboard-content { padding: 50px 20px; max-width: 1200px; margin: auto; text-align: center; }
+        .dashboard-content { padding: 40px 20px; max-width: 1200px; margin: auto; text-align: center; }
         
         .menu-grid { 
             display: flex; 
             justify-content: center; 
-            gap: 25px; 
-            margin-top: 30px; 
-            flex-wrap: nowrap; 
+            gap: 20px; 
+            margin-top: 20px; 
+            flex-wrap: wrap; 
         }
 
+        /* --- TARJETAS CON EFECTO TÁCTIL --- */
         .menu-card {
             background: var(--blanco); 
-            padding: 50px 20px; 
+            padding: 40px 20px; 
             border-radius: 25px;
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: center;
-            flex: 1;
-            min-width: 200px;
-            max-width: 280px;
+            width: 100%;
+            max-width: 260px;
             cursor: pointer; 
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(30, 46, 90, 0.08);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: var(--sombra-suave);
             border: 1px solid rgba(238, 238, 238, 0.8);
-            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent; /* Quita el cuadro azul feo de Android */
         }
 
+        /* EFECTO TÁCTIL (ACTIVE) PARA MÓVIL/TABLET */
+        .menu-card:active {
+            transform: scale(0.92); /* Se hunde ligeramente al tocar */
+            background-color: #f0f3ff; /* Cambia a un azul muy suave */
+            box-shadow: 0 5px 15px rgba(30, 46, 90, 0.1);
+            border-color: var(--azul-serex);
+        }
+
+        /* EFECTO HOVER PARA LAPTOPS */
         @media (hover: hover) {
             .menu-card:hover { 
-                transform: translateY(-15px); 
-                box-shadow: 0 25px 50px rgba(30, 46, 90, 0.25);
+                transform: translateY(-10px); 
+                box-shadow: var(--sombra-fuerte);
                 border-color: var(--azul-serex);
             }
         }
 
-        .menu-card:active {
-            transform: scale(0.98);
-            background-color: #f9f9f9;
-        }
+        .menu-card i { font-size: 45px; color: var(--azul-serex); margin-bottom: 20px; }
+        .menu-card span { font-size: 14px; font-weight: 800; color: var(--azul-serex); text-transform: uppercase; margin-bottom: 10px; }
+        .menu-card p { font-size: 11px; color: #888; margin: 0; line-height: 1.4; }
 
-        .menu-card i { font-size: 50px; color: var(--azul-serex); margin-bottom: 25px; display: flex; align-items: center; justify-content: center; }
-        .menu-card span { font-size: 15px; font-weight: 800; color: var(--azul-serex); text-transform: uppercase; margin-bottom: 12px; }
-        .menu-card p { font-size: 11px; color: #888; margin: 0; line-height: 1.5; padding: 0 10px; }
-
-        /* --- FOOTER GLOBAL --- */
+        /* --- FOOTER --- */
         .footer-text { 
             color: #555; 
             font-size: 8px; 
@@ -173,11 +166,10 @@
             width: 100%; 
             text-align: center; 
             padding: 12px 0;
-            background: rgba(30, 46, 90, 0.05); 
+            background: rgba(255, 255, 255, 0.8); 
             backdrop-filter: blur(5px);
-            border-top: 1px solid rgba(30, 46, 90, 0.1);
+            border-top: 1px solid rgba(0,0,0,0.05);
             z-index: 1001;
-            letter-spacing: 0.5px;
             font-weight: 600;
         }
 
@@ -187,14 +179,13 @@
             border-top: none;
         }
 
-        /* --- UTILIDADES --- */
+        /* --- LOADER --- */
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--azul-serex); border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hidden { display: none !important; }
 
-        @media (max-width: 900px) {
-            .menu-grid { flex-wrap: wrap; }
-            .menu-card { min-width: 45%; }
+        @media (max-width: 600px) {
+            .menu-card { max-width: 100%; flex: 1 1 140px; padding: 30px 15px; }
         }
     </style>
 </head>
@@ -215,12 +206,6 @@
         </div>
         
         <button id="btnEntrar" class="btn-entrar" onclick="validarIngreso()">Iniciar Sesión</button>
-
-        <div id="authBiometrica">
-            <p style="font-size: 10px; color: #888; margin-bottom: 10px;">O INGRESA CON TU BIOMETRÍA</p>
-            <i class="fi fi-br-fingerprint" onclick="iniciarBiometria()"></i>
-        </div>
-
         <div id="mensaje" style="margin-top:20px; font-size:13px; font-weight:600; min-height: 25px;"></div>
     </div>
 
@@ -237,46 +222,38 @@
         </header>
 
         <div class="dashboard-content">
-            <h2 style="color: var(--azul-serex); margin-bottom: 10px; font-size: 32px;">Menú Principal</h2>
-            <p style="color: #666; font-size: 16px; margin-bottom: 40px;">Selecciona una tarea para comenzar la gestión de tu unidad</p>
+            <h2 style="color: var(--azul-serex); margin-bottom: 5px; font-size: 28px;">Menú Principal</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Selecciona una tarea para tu unidad</p>
             
             <div class="menu-grid">
                 <div class="menu-card" onclick="alert('Kilometraje')">
                     <i class="fi fi-br-tachometer-fast"></i> <span>Kilometraje</span>
-                    <p>Registra el kilometraje actual de tu vehículo.</p>
+                    <p>Registra el recorrido actual.</p>
                 </div>
                 
                 <div class="menu-card" onclick="alert('Incidencia')">
                     <i class="fi fi-rr-light-emergency-on"></i> <span>Incidencia</span>
-                    <p>Reporta cualquier novedad o falla mecánica.</p>
+                    <p>Reporta fallas o novedades.</p>
                 </div>
                 
                 <div class="menu-card" onclick="alert('Trazabilidad')">
                     <i class="fi fi-rr-rectangle-list"></i> <span>Trazabilidad</span>
-                    <p>Revisa el historial de servicios de esta unidad.</p>
+                    <p>Historial de servicios.</p>
                 </div>
                 
                 <div id="btnMecanico" class="menu-card hidden" onclick="alert('Mantenimiento')">
                     <i class="fi fi-rs-tools"></i> <span>Mantenimiento</span>
-                    <p>Registro técnico para mecánicos autorizados.</p>
+                    <p>Registro para técnicos.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="footer-text">
-        © 2026 GRUPO SEREX C.A. - TODOS LOS DERECHOS RESERVADOS - SISTEMA DE GESTIÓN DE FLOTA
+        © 2026 GRUPO SEREX C.A. - TODOS LOS DERECHOS RESERVADOS
     </div>
 
     <script>
-        // Al cargar, verificamos si el navegador soporta biometría para mostrar el botón
-        window.onload = async () => {
-            const bioDiv = document.getElementById('authBiometrica');
-            if (!window.PublicKeyCredential) {
-                bioDiv.style.display = 'none';
-            }
-        };
-
         async function validarIngreso() {
             const dni = document.getElementById('userDNI').value;
             const pin = document.getElementById('userPIN').value;
@@ -307,7 +284,7 @@
                     document.body.classList.add('logged-in');
                     document.getElementById('seccionLogin').style.display = 'none';
                     document.body.style.backgroundImage = "none";
-                    document.body.style.backgroundColor = "#fcfcfc";
+                    document.body.style.backgroundColor = "#f4f7f9";
                     document.body.style.justifyContent = "flex-start";
                     document.getElementById('seccionDashboard').style.display = 'block';
                     
@@ -320,7 +297,7 @@
                     }
                 } else {
                     mensaje.style.color = "#e74c3c";
-                    mensaje.innerText = "Cédula y/o Pin incorrectos.";
+                    mensaje.innerText = "Cédula y/o PIN incorrectos.";
                 }
             } catch (error) {
                 mensaje.style.color = "#1e2e5a";
@@ -328,31 +305,6 @@
                 console.error(error);
             } finally {
                 btn.disabled = false;
-            }
-        }
-
-        async function iniciarBiometria() {
-            const mensaje = document.getElementById('mensaje');
-            mensaje.style.color = "var(--azul-serex)";
-            mensaje.innerText = "Solicitando biometría...";
-
-            try {
-                // Simulación de llamado al sensor (Requiere HTTPS)
-                const credential = await navigator.credentials.get({
-                    publicKey: {
-                        challenge: new Uint8Array([1, 2, 3, 4]),
-                        userVerification: "preferred"
-                    }
-                });
-
-                if (credential) {
-                    alert("Identidad confirmada. Accediendo...");
-                    // Aquí iría el flujo automático al Dashboard
-                }
-            } catch (err) {
-                mensaje.style.color = "#e74c3c";
-                mensaje.innerText = "No se pudo verificar la biometría.";
-                console.warn("La biometría requiere un entorno seguro (HTTPS).");
             }
         }
     </script>
