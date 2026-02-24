@@ -92,9 +92,9 @@
         .header-app {
             background: var(--blanco); width: 100%; position: fixed; top: 0; left: 0;
             display: grid; 
-            grid-template-columns: 1fr auto 1fr; /* Tres columnas para centrado perfecto */
+            grid-template-columns: 1fr auto 1fr; /* Tres columnas en Web */
             align-items: center;
-            padding: 10px 20px; box-sizing: border-box; 
+            padding: 12px 20px; box-sizing: border-box; 
             box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000;
         }
 
@@ -104,18 +104,19 @@
         .user-tag b { display: block; font-size: 14px; color: var(--azul-serex); }
         .user-tag span { font-size: 11px; color: #777; font-weight: 600; }
 
-        /* UNIDAD EN EL ENCABEZADO */
-        .header-unit-center {
+        /* UNIDAD ASIGNADA */
+        .header-unit-info {
             text-align: center;
         }
-        .header-unit-center label { 
+        .header-unit-info label { 
             font-size: 9px; 
             color: #888; 
             margin-bottom: -2px; 
             letter-spacing: 0.5px;
+            display: block;
         }
-        .header-unit-center b { 
-            font-size: 16px; 
+        .header-unit-info b { 
+            font-size: 15px; 
             color: var(--azul-serex); 
             display: block;
         }
@@ -125,7 +126,8 @@
             display: inline-block;
             color: #e74c3c; font-weight: 700; font-size: 10px; 
             cursor: pointer; border: 1px solid #e74c3c; 
-            padding: 6px 12px; border-radius: 8px; 
+            padding: 5px 10px; border-radius: 8px; 
+            margin-bottom: 2px;
         }
 
         .dashboard-content { padding: 20px; max-width: 1300px; margin: auto; text-align: center; }
@@ -199,17 +201,27 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hidden { display: none !important; }
 
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 1024px) {
             .menu-grid { flex-wrap: wrap; }
             .menu-card { max-width: 45%; }
-            .header-app { grid-template-columns: 1fr auto; } /* Ajuste móvil */
-            .header-unit-center { display: none; } /* Ocultar centro en móviles muy pequeños si estorba */
         }
 
         @media (max-width: 600px) {
+            .header-app { 
+                grid-template-columns: 1fr 1fr; /* Dos columnas: Usuario y Salida */
+                padding: 10px 15px;
+            }
+            .header-unit-info { 
+                grid-column: 2; /* Se posiciona en la columna 2 */
+                text-align: right; /* Alineado bajo el botón Salir */
+                margin-top: 2px;
+            }
+            .header-unit-info b { font-size: 13px; }
+            .header-unit-info label { font-size: 8px; }
+
             .menu-card { max-width: 100%; flex: 1 1 140px; }
-            .header-unit-center { display: block; grid-column: 1 / span 2; order: 3; margin-top: 5px; } /* Mueve unidad abajo en móvil */
-            .header-app { grid-template-columns: 1fr 1fr; padding: 10px; }
+            #seccionDashboard { padding-top: 110px; }
         }
     </style>
 </head>
@@ -243,7 +255,7 @@
                 </div>
             </div>
 
-            <div class="header-unit-center">
+            <div class="header-unit-info">
                 <label>UNIDAD ASIGNADA</label>
                 <b id="txtUnidad">---</b>
             </div>
@@ -286,7 +298,7 @@
     </div>
 
     <script>
-        // Función para convertir a Nompropio
+        // Función para convertir a Nompropio (Capitalize)
         function toTitleCase(str) {
             if (!str) return "---";
             return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
@@ -326,7 +338,7 @@
                     document.body.style.justifyContent = "flex-start";
                     document.getElementById('seccionDashboard').style.display = 'block';
                     
-                    // Asignación de datos con corrección Nompropio
+                    // Asignación de datos
                     const nombreUsuario = resultado.nombre ? resultado.nombre : "Usuario";
                     const rolUsuario = toTitleCase(resultado.rol || "Personal");
                     const unidadAsignada = resultado.unit || resultado.unidad || "NO ASIGNADA";
@@ -335,7 +347,7 @@
                     document.getElementById('txtRol').innerText = "Rol: " + rolUsuario;
                     document.getElementById('txtUnidad').innerText = unidadAsignada;
 
-                    // Mostrar botón mecánico si aplica
+                    // Lógica para el botón de Mecánico/Admin
                     if(resultado.rol === "Mecanico" || resultado.rol === "Admin") {
                         document.getElementById('btnMecanico').classList.remove('hidden');
                     }
